@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Realm from "realm";
+
+import React from "react";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -11,10 +12,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <h1>Navigation Bar</h1>
-        <span>
+        {/* <span>
           <Link href="/main">{pathname}</Link>
         </span>
-        <p>this is the page content</p>
+        <p>this is the page content</p> */}
 
         <div>{children}</div>
       </body>
