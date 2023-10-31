@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Realm from "realm";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
