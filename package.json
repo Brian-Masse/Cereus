@@ -15,7 +15,7 @@
     "node-fetch": "^3.3.2",
     "react": "^18",
     "react-dom": "^18",
-    "realm": "^12.2.1",
+    "realm": "^12.0.0-browser.2",
     "realm-web": "^2.0.0",
     "yarn": "^1.22.19",
     "yawn": "^0.1.1"

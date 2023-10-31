@@ -1,6 +1,10 @@
 "use client";
 
 import * as Realm from "realm-web";
+const {
+  BSON: { ObjectId },
+} = Realm;
+
 import React from "react";
 
 const appID = "application-0-uvpji";
@@ -41,11 +45,42 @@ const RealmLayout = () => {
   );
 };
 
-export default function App() {
+const mongo = app.currentUser!.mongoClient("mongodb-atlas");
+const collection = mongo.db("TestDB").collection("Plants");
+
+const AddPlantButton = () => {
+  const addPlant = async () => {
+    const plant = {
+      name: "lil of the valley",
+      sunlight: "full",
+      color: "white",
+    };
+
+    const result = await collection.insertOne(plant);
+    console.log(result);
+  };
+
+  return <button onClick={addPlant}>Add Plant I guess</button>;
+};
+
+const TaskScheme = {
+  name: "Task",
+  properties: {
+    _id: "int",
+    name: "string",
+    status: "string?",
+    owner_id: "string?",
+  },
+
+  primaryKey: "_id",
+};
+
+export default function AppPage() {
   return (
     <div>
       <NoSSRWrapper>
         <RealmLayout />
+        <AddPlantButton />
       </NoSSRWrapper>
     </div>
   );
