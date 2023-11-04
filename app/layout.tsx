@@ -1,22 +1,16 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
 import React from "react";
+import realmManager from "./TS/RealmManager";
+import NoSSRWrapper from "./utilities/NoSSRWrapper";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-
   return (
     <html lang="en">
       <body>
-        <h1>Navigation Bar</h1>
-        {/* <span>
-          <Link href="/main">{pathname}</Link>
-        </span>
-        <p>this is the page content</p> */}
-
+        <NoSSRWrapper>
+          {<realmManager.RealmLayout></realmManager.RealmLayout>}
+        </NoSSRWrapper>
         <div>{children}</div>
       </body>
     </html>

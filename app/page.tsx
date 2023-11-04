@@ -1,15 +1,10 @@
 "use client";
 
 import * as Realm from "realm-web";
-import realmManager from "./TS/RealmManager";
-
+import React from "react";
 const {
   BSON: { ObjectId },
 } = Realm;
-
-import React from "react";
-
-import NoSSRWrapper from "./utilities/NoSSRWrapper";
 
 // const mongo = app.currentUser!.mongoClient("mongodb-atlas");
 // const collection = mongo.db("TestDB").collection("Plants");
@@ -30,14 +25,5 @@ import NoSSRWrapper from "./utilities/NoSSRWrapper";
 // };
 
 export default function AppPage() {
-  return (
-    <div>
-      <NoSSRWrapper>
-        {<realmManager.RealmLayout />}
-
-        {/* <RealmLayout />
-        <AddPlantButton /> */}
-      </NoSSRWrapper>
-    </div>
-  );
+  return <div>this is a great main page</div>;
 }

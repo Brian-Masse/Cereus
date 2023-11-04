@@ -28,12 +28,6 @@ class RealmManager {
   setUser: (user: Realm.User) => void = (user: Realm.User) => {};
 
   public constructor() {
-    // log the user in
-    const task = async () => {
-      await this.loginAnonymously();
-    };
-    task();
-
     // create a connection to mongo
     this.mongo = this.app.currentUser!.mongoClient(RealmManager.mongoClient);
   }
@@ -49,6 +43,17 @@ class RealmManager {
     this.setUser(user);
   }
 
+  // this runs once the user and setUser value are retrieved
+  // this prevents the application from logging users in every time regardless of if they are currently signed in
+  private postUserFetchInit() {
+    if (this.user == null) {
+      const task = async () => {
+        await this.loginAnonymously();
+      };
+      task();
+    }
+  }
+
   // This is the standard layout wrapper for pages that need to use realm
   // it will be stored in a high level layout.
   RealmLayout = () => {
@@ -57,6 +62,8 @@ class RealmManager {
     );
     this.user = user;
     this.setUser;
+
+    this.postUserFetchInit();
 
     return (
       <div className="App">
