@@ -17,7 +17,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     if (app && !app.currentUser) {
       const user = Realm.Credentials.anonymous();
 
-      app.login(user);
+      app.logIn(user);
     }
   }, [app, app?.currentUser]);
 
