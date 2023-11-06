@@ -1,22 +1,29 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
 import React from "react";
+import { useEffect } from "react";
+
+import * as Realm from "realm-web";
+import Link from "next/link";
+import { useApp } from "./Utilities/useApp";
+
+import RealmManager from "./Utilities/RealmManager";
+import NoSSRWrapper from "./ReactUtilities/NoSSRWrapper";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+  const app: Realm.App = useApp();
+
+  useEffect(() => {
+    if (app && !app.currentUser) {
+      const user = Realm.Credentials.anonymous();
+
+      app.login(user);
+    }
+  }, [app, app?.currentUser]);
 
   return (
     <html lang="en">
       <body>
-        <h1>Navigation Bar</h1>
-        {/* <span>
-          <Link href="/main">{pathname}</Link>
-        </span>
-        <p>this is the page content</p> */}
-
         <div>{children}</div>
       </body>
     </html>

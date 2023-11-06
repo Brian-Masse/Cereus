@@ -1,87 +1,134 @@
 "use client";
 
-import * as Realm from "realm-web";
-const {
-  BSON: { ObjectId },
-} = Realm;
+import { useEffect, useState } from "react";
+import { useApp } from "./Utilities/useApp";
+
+import RealmManager from "./Utilities/RealmManager";
+import { Collections, Databases } from "./Utilities/Collections";
+import NoSSRWrapper from "./ReactUtilities/NoSSRWrapper";
 
 import React from "react";
+import * as Realm from "realm-web";
 
-const appID = "application-0-uvpji";
-const app = new Realm.App({ id: appID });
+// const plants = RealmManager.retrieveObject(Collections.testPlants, {
+//   name: "flower",
+// });
 
-import NoSSRWrapper from "./utilities/NoSSRWrapper";
+// console.log(plants);
 
-const UserDetail = ({ user }: { user: Realm.User }) => {
+// const AddPlantButton = () => {
+//   const addPlant = async () => {
+//     const plant = {
+//       name: "lil of the valley",
+//       sunlight: "full",
+//       color: "white",
+//     };
+
+//     const result = await collection.insertOne(plant);
+//     console.log(result);
+//   };
+
+//   return <button onClick={addPlant}>Add Plant I guess</button>;
+// };
+
+const Retriever = () => {
+  const task = async () => {
+    // const test = RealmManager.retrieveObject(Collections.testPlants, {
+    //   name: "flower",
+    // });
+    // const plantsCollection = RealmManager.app
+    //   .currentUser!.mongoClient("mongodb-atlas")
+    //   .db("TestDB")
+    //   .collection("Plants");
+    // const flower = plantsCollection.findOne({ name: "flower" });
+    // console.log(flower);
+  };
+
+  task();
+
+  // const plants = RealmManager.retrieveObject(Collections.testPlants, {
+  //   name: "flower",
+  // });
+
+  // console.log("this is platns: " + plants);
+
+  // const app = new Realm.App({ id: "application-0-uvpji" });
+
+  // const [user, setUser] = React.useState<Realm.User | null>(app.currentUser);
+
+  // // this.postUserFetchInit();
+
+  // // if (app.currentUser == null) {
+  // const task = async () => {
+  //   const user: Realm.User = await app.logIn(Realm.Credentials.anonymous());
+  //   setUser(user);
+  //   console.log("this is running");
+  // };
+  // task();
+
+  // console.log("running up here");
+  // const working = () => {
+  //   console.log("working");
+  // };
+  // working();
+
+  // }
+
+  // const plantsCollection = app
+  //   .currentUser!.mongoClient("mongodb-atlas")
+  //   .db("TestDB")
+  //   .collection("Plants");
+
+  // const flower = plantsCollection.findOne({ name: "flower" });
+  // console.log("flower");
+
+  return <div>you better</div>;
+};
+
+const Test = () => {
+  console.log("this is my least favorite thing imaginable!");
+
+  return <div>layout woohoo</div>;
+};
+
+function MongoDBDataAccess({ name }) {
+  const [plant, setPlant] = useState();
+  const app = useApp();
+
+  useEffect(() => {
+    if (app?.currentUser) {
+      const mongo = app?.currentUser?.mongoClient("mongodb-atlas");
+      const plants = mongo.db("TestDB").collection("Plants");
+      plants.findOne({ name }).then((foundPlant) => {
+        setPlant(foundPlant);
+      });
+    }
+  }, [app, app?.currentUser, app?.currentUser?.id, name]);
+
   return (
     <div>
-      <h1>logged in with anonymous user ID: {user.id}</h1>
+      {plant ? (
+        <div>
+          <p>{plant.name}</p>
+          <p>{plant.color}</p>
+        </div>
+      ) : (
+        "no plant"
+      )}
     </div>
   );
-};
-
-type LoginProps = {
-  setUser: (user: Realm.User) => void;
-};
-
-const Login = ({ setUser }: LoginProps) => {
-  const loginAnonymously = async () => {
-    const user: Realm.User = await app.logIn(Realm.Credentials.anonymous());
-    setUser(user);
-  };
-
-  return <button onClick={loginAnonymously}>Log In</button>;
-};
-
-const RealmLayout = () => {
-  const [user, setUser] = React.useState<Realm.User | null>(app.currentUser);
-
-  return (
-    <div className="App">
-      <div className="App-header">
-        {user ? <UserDetail user={user} /> : <Login setUser={setUser} />}
-      </div>
-    </div>
-  );
-};
-
-const mongo = app.currentUser!.mongoClient("mongodb-atlas");
-const collection = mongo.db("TestDB").collection("Plants");
-
-const AddPlantButton = () => {
-  const addPlant = async () => {
-    const plant = {
-      name: "lil of the valley",
-      sunlight: "full",
-      color: "white",
-    };
-
-    const result = await collection.insertOne(plant);
-    console.log(result);
-  };
-
-  return <button onClick={addPlant}>Add Plant I guess</button>;
-};
-
-const TaskScheme = {
-  name: "Task",
-  properties: {
-    _id: "int",
-    name: "string",
-    status: "string?",
-    owner_id: "string?",
-  },
-
-  primaryKey: "_id",
-};
+}
 
 export default function AppPage() {
   return (
     <div>
-      <NoSSRWrapper>
-        <RealmLayout />
-        <AddPlantButton />
-      </NoSSRWrapper>
+      <p>this is a great main page</p>
+
+      <MongoDBDataAccess name="flower"></MongoDBDataAccess>
+
+      {/* <Retriever /> */}
+
+      {/* {plants.name} */}
     </div>
   );
 }

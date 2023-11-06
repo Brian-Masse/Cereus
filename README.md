@@ -9,6 +9,8 @@ Online Portfolio
 ````
 npm install --global next
 npm install realm
+npm install react
+
 ```
 
 
